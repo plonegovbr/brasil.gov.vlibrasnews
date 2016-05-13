@@ -1,0 +1,37 @@
+#content #viewlet-vlibrasvideo a
+{
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    display: block;
+    overflow: hidden;
+
+    width: 29px;
+    height: 29px;
+
+    cursor: default;
+    white-space: nowrap;
+    text-indent: 101%;
+
+    border-bottom: none;
+    background: url('++resource++brasil.gov.vlibrasvideo/vlibrasvideo-icon.svg') no-repeat;
+
+    -webkit-filter: brightness(250%) grayscale(100%);
+            filter: brightness(250%) grayscale(100%);
+}
+#content #viewlet-vlibrasvideo a.ready,
+#content #viewlet-vlibrasvideo a.playing
+{
+    cursor: pointer;
+
+    -webkit-filter: none;
+            filter: none;
+}
+#vlibrasvideo-player
+{
+    position: fixed;
+    z-index: 9999;
+    right: 20px;
+    bottom: 20px;
+}

@@ -1,0 +1,45 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:zcml="http://namespaces.zope.org/zcml">
+
+  <!-- Archetypes -->
+  <subscriber
+      zcml:condition="installed Products.Archetypes"
+      for="Products.Archetypes.interfaces.IBaseObject
+           Products.CMFCore.interfaces.IActionSucceededEvent"
+      handler=".utils.post_news"
+      />
+  <subscriber
+      zcml:condition="installed Products.Archetypes"
+      for="Products.Archetypes.interfaces.IBaseObject
+           zope.lifecycleevent.IObjectModifiedEvent"
+      handler=".utils.repost_news"
+      />
+  <subscriber
+      zcml:condition="installed Products.Archetypes"
+      for="Products.Archetypes.interfaces.IBaseObject
+           zope.lifecycleevent.IObjectRemovedEvent"
+      handler=".utils.delete_video"
+      />
+
+  <!-- Dexterity -->
+  <subscriber
+      zcml:condition="installed plone.app.dexterity"
+      for="plone.dexterity.interfaces.IDexterityContent
+           Products.CMFCore.interfaces.IActionSucceededEvent"
+      handler=".utils.post_news"
+      />
+  <subscriber
+      zcml:condition="installed plone.app.dexterity"
+      for="plone.dexterity.interfaces.IDexterityContent
+           zope.lifecycleevent.IObjectModifiedEvent"
+      handler=".utils.repost_news"
+      />
+  <subscriber
+      zcml:condition="installed plone.app.dexterity"
+      for="plone.dexterity.interfaces.IDexterityContent
+           zope.lifecycleevent.IObjectRemovedEvent"
+      handler=".utils.delete_video"
+      />
+
+</configure>
