@@ -38,24 +38,23 @@ class LikeViewletTestCase(unittest.TestCase):
 
     def test_disabled_on_portal(self):
         viewlet = self.viewlet(self.portal)
-        self.assertFalse(viewlet.enabled())
+        self.assertFalse(viewlet.enabled)
 
     def test_enabled_on_document(self):
-        viewlet = self.viewlet(self.document)
-        self.assertTrue(viewlet.enabled())
+        with HTTMock(vlibras_ok):
+            viewlet = self.viewlet(self.document)
+            self.assertTrue(viewlet.enabled)
 
     def test_processing(self):
         with HTTMock(vlibras_processing):
             viewlet = self.viewlet(self.document)
-            self.assertFalse(viewlet._is_ready())
-            self.assertEqual(viewlet.status, 102)
-            self.assertEqual(viewlet.klass(), None)
+            self.assertFalse(viewlet.is_ready)
+            self.assertEqual(viewlet.klass, 'processing')
 
     def test_is_ready(self):
         with HTTMock(vlibras_ok):
             viewlet = self.viewlet(self.document)
-            self.assertTrue(viewlet._is_ready())
-            self.assertEqual(viewlet.status, 200)
+            self.assertTrue(viewlet.is_ready)
             self.assertEqual(
-                viewlet.youtube_url(), 'https://www.youtube.com/embed/ds2gGAbPJz8')
-            self.assertEqual(viewlet.klass(), 'ready')
+                viewlet.youtube_url, 'https://www.youtube.com/embed/ds2gGAbPJz8')
+            self.assertEqual(viewlet.klass, 'ready')

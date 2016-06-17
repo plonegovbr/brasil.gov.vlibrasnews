@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from httmock import all_requests
+from requests.exceptions import RequestException
 
 import json
 
@@ -59,3 +60,8 @@ def vlibras_processing(url, request):
             'few minutes.')
     }
     return {'status_code': 102, 'content': json.dumps(content)}
+
+
+@all_requests
+def request_exception(url, request):
+    raise RequestException('Request ERROR on URL {0}'.format(url), request=request)

@@ -3,6 +3,8 @@ from brasil.gov.vlibrasvideo import utils
 from brasil.gov.vlibrasvideo.config import DEFAULT_ENABLED_CONTENT_TYPES
 from brasil.gov.vlibrasvideo.interfaces import IVLibrasVideoSettings
 from brasil.gov.vlibrasvideo.testing import INTEGRATION_TESTING
+from brasil.gov.vlibrasvideo.tests.api_hacks import set_text_field
+from brasil.gov.vlibrasvideo.tests.vlibras_mock import request_exception
 from brasil.gov.vlibrasvideo.tests.vlibras_mock import vlibras_error
 from brasil.gov.vlibrasvideo.tests.vlibras_mock import vlibras_ok
 from httmock import HTTMock
@@ -26,14 +28,9 @@ class UtilsTestCase(unittest.TestCase):
                     type='Document',
                     title='My Content',
                     description='Description',
-                    text='<p>Content</p>',
                     container=self.portal)
-
-    def test_get_content(self):
-        self.assertEqual(utils._get_content(self.document), 'Content')
-
-    def test_get_state(self):
-        self.assertEqual(utils._get_state(self.document), 'published')
+                set_text_field(
+                    self.document, '<p>Content</p>')
 
     def test_get_registry(self):
         self.assertEqual(utils._get_registry('vlibrasvideo_token'), u'no key')
@@ -41,50 +38,46 @@ class UtilsTestCase(unittest.TestCase):
             utils._get_registry('enabled_content_types', []),
             DEFAULT_ENABLED_CONTENT_TYPES)
 
+    def test_validate(self):
+        self.assertTrue(utils._validate(self.document, u'no key'))
+
     def test_post_news_ok(self):
         with HTTMock(vlibras_ok):
-            status, description = utils.post_news(self.document)
-            self.assertEqual(status, 200)
-            self.assertEqual(description, 'OK')
+            self.assertTrue(utils.post_news(self.document))
 
     def test_post_news_error(self):
         with HTTMock(vlibras_error):
-            status, description = utils.post_news(self.document)
-            self.assertEqual(status, 401)
-            self.assertEqual(description, 'UNAUTHORIZED')
+            self.assertFalse(utils.post_news(self.document))
+        with HTTMock(request_exception):
+            self.assertFalse(utils.post_news(self.document))
 
     def test_repost_news_ok(self):
         with HTTMock(vlibras_ok):
-            status, description = utils.repost_news(self.document)
-            self.assertEqual(status, 200)
-            self.assertEqual(description, 'OK')
+            self.assertTrue(utils.repost_news(self.document))
 
     def test_repost_news_error(self):
         with HTTMock(vlibras_error):
-            status, description = utils.repost_news(self.document)
-            self.assertEqual(status, 401)
-            self.assertEqual(description, 'UNAUTHORIZED')
+            self.assertFalse(utils.repost_news(self.document))
+        with HTTMock(request_exception):
+            self.assertFalse(utils.repost_news(self.document))
 
     def test_get_video_url_ok(self):
         with HTTMock(vlibras_ok):
-            status, video_url = utils.get_video_url(self.document)
-            self.assertEqual(status, 200)
+            video_url = utils.get_video_url(self.document)
             self.assertEqual(video_url, 'https://www.youtube.com/embed/ds2gGAbPJz8')
 
     def test_get_video_url_error(self):
         with HTTMock(vlibras_error):
-            status, description = utils.get_video_url(self.document)
-            self.assertEqual(status, 401)
-            self.assertEqual(description, 'UNAUTHORIZED')
+            self.assertIsNone(utils.get_video_url(self.document))
+        with HTTMock(request_exception):
+            self.assertIsNone(utils.get_video_url(self.document))
 
     def test_delete_video_ok(self):
         with HTTMock(vlibras_ok):
-            status, description = utils.delete_video(self.document)
-            self.assertEqual(status, 200)
-            self.assertEqual(description, 'OK')
+            self.assertTrue(utils.delete_video(self.document))
 
     def test_delete_video_error(self):
         with HTTMock(vlibras_error):
-            status, description = utils.delete_video(self.document)
-            self.assertEqual(status, 401)
-            self.assertEqual(description, 'UNAUTHORIZED')
+            self.assertFalse(utils.delete_video(self.document))
+        with HTTMock(request_exception):
+            self.assertFalse(utils.delete_video(self.document))
