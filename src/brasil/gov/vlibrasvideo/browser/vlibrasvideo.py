@@ -18,6 +18,6 @@ class VLibrasVideoViewlet(ViewletBase):
         super(VLibrasVideoViewlet, self).update()
         self.youtube_url = get_video_url(self.context)
         self.is_ready = self.youtube_url is not None
-        self.enabled = self.is_ready and not api.user.is_anonymous()
+        self.enabled = self.is_ready or not api.user.is_anonymous()
         if self.is_ready:
             self.klass = 'ready'

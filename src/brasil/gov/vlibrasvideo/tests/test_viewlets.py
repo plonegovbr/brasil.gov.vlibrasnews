@@ -36,10 +36,6 @@ class LikeViewletTestCase(unittest.TestCase):
         viewlet.update()
         return viewlet
 
-    def test_disabled_on_portal(self):
-        viewlet = self.viewlet(self.portal)
-        self.assertFalse(viewlet.enabled)
-
     def test_enabled_on_document(self):
         with HTTMock(vlibras_ok):
             viewlet = self.viewlet(self.document)
