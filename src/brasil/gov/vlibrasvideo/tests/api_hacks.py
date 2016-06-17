@@ -17,11 +17,7 @@ def get_text_field(obj):
     """Get text field in object on both, Archetypes and Dexterity."""
     text = ''
     try:
-        raw = obj.getText()  # Archetypes
-        if raw != '':
-            from lxml import html
-            el = html.fromstring(raw)
-            text = el.text_content()
+        text = obj.getField('text').get(obj, mimetype='text/plain')
     except AttributeError:
         from plone.app.textfield.value import IRichTextValue
         if IRichTextValue.providedBy(obj.text):  # Dexterity
