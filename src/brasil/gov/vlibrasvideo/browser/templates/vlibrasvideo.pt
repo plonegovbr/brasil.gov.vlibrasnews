@@ -1,11 +1,17 @@
 <div id="viewlet-vlibrasvideo"
     tal:condition="view/enabled"
     i18n:domain="brasil.gov.vlibrasvideo">
-    <a tal:attributes="class view/klass;
-                       href view/youtube_url"
+    <a data-close-title="Close Libras video"
+        title="Open Libras translation"
+        tal:attributes="class view/state;
+                        data-state view/state;
+                        href view/youtube_url"
         tal:condition="view/is_ready"
-        i18n:translate="">Abrir tradução do texto para Libras</a>
+        i18n:attributes="title; data-title-close"
+        i18n:translate="">Open Libras translation</a>
     <a href="#"
+        title="Libras translation being processed"
         tal:condition="not:view/is_ready"
-        i18n:translate="">Vídeo com a tradução em libras sendo processado</a>
+        i18n:attributes="title"
+        i18n:translate="">Libras translation being processed</a>
 </div>

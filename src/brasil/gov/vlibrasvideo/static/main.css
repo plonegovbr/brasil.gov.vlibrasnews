@@ -35,3 +35,20 @@
     right: 20px;
     bottom: 20px;
 }
+#vlibrasvideo-player .close
+{
+    position: absolute;
+    top: -14px;
+    left: -14px;
+
+    overflow: hidden;
+
+    width: 30px;
+    height: 30px;
+
+    cursor: pointer;
+    white-space: nowrap;
+    text-indent: 101%;
+
+    background-image: url('++resource++plone.app.jquerytools.pb_close.png');
+}
