@@ -12,7 +12,7 @@ class VLibrasVideoViewlet(ViewletBase):
     youtube_url = ''
     is_ready = False
     enabled = False
-    klass = 'processing'
+    state = 'processing'
 
     def update(self):
         super(VLibrasVideoViewlet, self).update()
@@ -20,4 +20,4 @@ class VLibrasVideoViewlet(ViewletBase):
         self.is_ready = self.youtube_url is not None
         self.enabled = self.is_ready or not api.user.is_anonymous()
         if self.is_ready:
-            self.klass = 'ready'
+            self.state = 'ready'

@@ -45,7 +45,7 @@ class LikeViewletTestCase(unittest.TestCase):
         with HTTMock(vlibras_processing):
             viewlet = self.viewlet(self.document)
             self.assertFalse(viewlet.is_ready)
-            self.assertEqual(viewlet.klass, 'processing')
+            self.assertEqual(viewlet.state, 'processing')
 
     def test_is_ready(self):
         with HTTMock(vlibras_ok):
@@ -53,4 +53,4 @@ class LikeViewletTestCase(unittest.TestCase):
             self.assertTrue(viewlet.is_ready)
             self.assertEqual(
                 viewlet.youtube_url, 'https://www.youtube.com/embed/ds2gGAbPJz8')
-            self.assertEqual(viewlet.klass, 'ready')
+            self.assertEqual(viewlet.state, 'ready')

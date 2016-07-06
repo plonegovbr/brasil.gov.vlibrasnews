@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2016-04-07 22:59+0000\n"
+"POT-Creation-Date: 2016-07-06 14:58+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -14,3 +14,38 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: DOMAIN\n"
 
+#: brasil/gov/vlibrasvideo/interfaces.py:20
+msgid "Add the secret token to call VLibras API."
+msgstr ""
+
+#: brasil/gov/vlibrasvideo/interfaces.py:27
+msgid "Enabled Content Types"
+msgstr ""
+
+#: brasil/gov/vlibrasvideo/browser/templates/vlibrasvideo.pt:12
+msgid "Libras translation being processed"
+msgstr ""
+
+#: brasil/gov/vlibrasvideo/interfaces.py:28
+msgid "Only objects of these content types will display vlibras icon."
+msgstr ""
+
+#: brasil/gov/vlibrasvideo/browser/templates/vlibrasvideo.pt:4
+msgid "Open Libras translation"
+msgstr ""
+
+#: brasil/gov/vlibrasvideo/controlpanel.py:13
+msgid "Settings for the brasil.gov.vlibrasvideo package"
+msgstr ""
+
+#: brasil/gov/vlibrasvideo/interfaces.py:19
+msgid "VLibras Video Token"
+msgstr ""
+
+#: brasil/gov/vlibrasvideo/controlpanel.py:12
+msgid "VLibrasVideo"
+msgstr ""
+
+#: brasil/gov/vlibrasvideo/profiles/default/controlpanel.xml
+msgid "brasil.gov.vlibrasvideo"
+msgstr ""
