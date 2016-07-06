@@ -11,6 +11,7 @@ Introdução
 Este pacote integra o VLibras News API, desenvolvido pelo `Laboratório de Aplicações de Video Digital - LAViD`_, um Tradutor de Português para Libras para Plone.
 
 
+
 Estado deste pacote
 ---------------------
 
@@ -30,6 +31,9 @@ O estado atual dos testes pode ser visto nas imagens a seguir:
 
 .. warning:: Neste momento utilizamos a versão 1.0 do plone.app.contenttypes.
              A versão 1.1a1 introduziu mudanças na maneira como o Plone trabalha com Eventos.
+
+Este pacote suporta somente tipos de conteúdo Dexterity.
+
 
 Instalação
 ------------
