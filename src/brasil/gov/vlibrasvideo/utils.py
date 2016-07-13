@@ -8,6 +8,7 @@ from brasil.gov.vlibrasvideo.logger import logger
 from brasil.gov.vlibrasvideo.tests.api_hacks import get_text_field
 from plone import api
 from Products.CMFCore.WorkflowCore import WorkflowException
+from Products.CMFPlone.utils import safe_unicode
 from requests.exceptions import RequestException
 from zope.component.interfaces import ComponentLookupError
 
@@ -79,9 +80,9 @@ def post_news(context, event=None):
     headers = {'Authentication-Token': token}
     payload = dict(
         id=context.UID(),
-        title=context.Title(),
-        description=context.Description(),
-        content=get_text_field(context))
+        title=safe_unicode(context.Title()),
+        description=safe_unicode(context.Description()),
+        content=safe_unicode(get_text_field(context)))
     params = dict(
         url=POST_URL,
         headers=headers,
@@ -115,9 +116,9 @@ def repost_news(context, event=None):
         return False
     headers = {'Authentication-Token': token}
     payload = dict(
-        title=context.Title(),
-        description=context.Description(),
-        content=get_text_field(context))
+        title=safe_unicode(context.Title()),
+        description=safe_unicode(context.Description()),
+        content=safe_unicode(get_text_field(context)))
     params = dict(
         url=REPOST_URL.format(context.UID()),
         headers=headers,
