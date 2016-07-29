@@ -28,6 +28,15 @@
     -webkit-filter: none;
             filter: none;
 }
+#content #viewlet-vlibrasvideo a.notprocessing
+{
+    background: #840505;
+
+    -webkit-filter: none;
+            filter: none;
+    -webkit-mask-image: url('++resource++brasil.gov.vlibrasvideo/vlibrasvideo-icon.svg');
+            mask-image: url('++resource++brasil.gov.vlibrasvideo/vlibrasvideo-icon.svg');
+}
 #vlibrasvideo-player
 {
     position: fixed;
