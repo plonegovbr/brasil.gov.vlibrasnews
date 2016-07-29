@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 from brasil.gov.vlibrasvideo import utils
 from brasil.gov.vlibrasvideo.config import DEFAULT_ENABLED_CONTENT_TYPES
+from brasil.gov.vlibrasvideo.exc import NotProcessingError
 from brasil.gov.vlibrasvideo.interfaces import IVLibrasVideoSettings
 from brasil.gov.vlibrasvideo.testing import INTEGRATION_TESTING
 from brasil.gov.vlibrasvideo.tests.api_hacks import set_text_field
 from brasil.gov.vlibrasvideo.tests.vlibras_mock import request_exception
 from brasil.gov.vlibrasvideo.tests.vlibras_mock import vlibras_error
 from brasil.gov.vlibrasvideo.tests.vlibras_mock import vlibras_ok
+from brasil.gov.vlibrasvideo.tests.vlibras_mock import vlibras_processing
 from httmock import HTTMock
 from plone import api
 
@@ -68,6 +70,9 @@ class UtilsTestCase(unittest.TestCase):
 
     def test_get_video_url_error(self):
         with HTTMock(vlibras_error):
+            with self.assertRaises(NotProcessingError):
+                utils.get_video_url(self.document)
+        with HTTMock(vlibras_processing):
             self.assertIsNone(utils.get_video_url(self.document))
         with HTTMock(request_exception):
             self.assertIsNone(utils.get_video_url(self.document))

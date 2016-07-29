@@ -3,6 +3,7 @@ from brasil.gov.vlibrasvideo.config import POST_URL
 from brasil.gov.vlibrasvideo.config import REPOST_URL
 from brasil.gov.vlibrasvideo.config import REQUEST_TIMEOUT
 from brasil.gov.vlibrasvideo.config import VIDEO_URL
+from brasil.gov.vlibrasvideo.exc import NotProcessingError
 from brasil.gov.vlibrasvideo.interfaces import IVLibrasVideoSettings
 from brasil.gov.vlibrasvideo.logger import logger
 from brasil.gov.vlibrasvideo.tests.api_hacks import get_text_field
@@ -144,6 +145,8 @@ def get_video_url(context):
     :type context: content object
     :returns: youtube url if available
     :rtype: string or None
+    :raises:
+        :class:`~brasil.gov.vlibras.exc.NotProcessingErrorError`,
     """
     token = _get_registry('vlibrasvideo_token')
     if not _validate(context, token):
@@ -163,6 +166,8 @@ def get_video_url(context):
     if response.status_code != 200:
         logger.error(u'GET - {0}: {1} - {2}'.format(
             context.absolute_url(), response.status_code, response.reason))
+        if response.status_code != 102:
+            raise NotProcessingError('Video not ready and not being processed.')
         return
     data = response.json()
     return data['url_youtube']
