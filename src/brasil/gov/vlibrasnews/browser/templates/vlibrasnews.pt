@@ -1,19 +1,20 @@
 <div id="viewlet-vlibrasnews"
     tal:condition="view/enabled"
+    tal:define="state view/state"
     i18n:domain="brasil.gov.vlibrasnews">
     <a data-close-title="Close Libras video"
         title="Open Libras translation"
-        tal:attributes="class view/state;
-                        data-state view/state;
-                        href view/youtube_url"
-        tal:condition="view/is_ready"
+        tal:attributes="class state;
+                        data-state state;
+                        href view/video_url"
+        tal:condition="python:state == 'ready'"
         i18n:attributes="title; data-title-close"
         i18n:translate="">Open Libras translation</a>
     <a href="#"
         title="Libras translation being processed"
-        tal:attributes="class view/state;
-                        data-state view/state"
-        tal:condition="not:view/is_ready"
+        tal:attributes="class state;
+                        data-state state"
+        tal:condition="python:state != 'ready'"
         i18n:attributes="title"
         i18n:translate="">Libras translation being processed</a>
 </div>
