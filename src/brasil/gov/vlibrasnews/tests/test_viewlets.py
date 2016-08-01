@@ -9,10 +9,10 @@ from httmock import HTTMock
 from plone import api
 from zope.interface import alsoProvides
 
-import unittest2 as unittest
+import unittest
 
 
-class LikeViewletTestCase(unittest.TestCase):
+class ViewletTestCase(unittest.TestCase):
 
     layer = INTEGRATION_TESTING
 

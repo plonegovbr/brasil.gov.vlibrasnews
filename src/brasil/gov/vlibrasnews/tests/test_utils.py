@@ -12,7 +12,7 @@ from brasil.gov.vlibrasnews.tests.vlibras_mock import vlibras_processing
 from httmock import HTTMock
 from plone import api
 
-import unittest2 as unittest
+import unittest
 
 
 class SubscribersTestCase(unittest.TestCase):
