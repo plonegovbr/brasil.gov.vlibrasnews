@@ -15,11 +15,10 @@ class IVLibrasNewsSettings(form.Schema):
 
     """Schema for the control panel form."""
 
-    vlibrasnews_token = schema.TextLine(
-        title=_(u'VLibras News API Token'),
-        description=_(
-            u'Add the secret token to call VLibras API.'),
-        default=u'',
+    access_token = schema.ASCIILine(
+        title=_(u'Access Token'),
+        description=_(u'Token to access the VLibras News API service.'),
+        default='',
         required=True,
     )
 

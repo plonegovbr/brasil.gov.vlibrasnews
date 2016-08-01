@@ -21,8 +21,7 @@ class ViewletTestCase(unittest.TestCase):
         self.request = self.layer['request']
         alsoProvides(self.portal.REQUEST, IVLibrasNewsLayer)
         api.portal.set_registry_record(
-            IVLibrasNewsSettings.__identifier__ + '.vlibrasnews_token',
-            u'no key')
+            IVLibrasNewsSettings.__identifier__ + '.access_token', 'no key')
         with HTTMock(vlibras_ok):
             with api.env.adopt_roles(['Manager']):
                 self.document = api.content.create(

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2016-08-01 17:31+0000\n"
+"POT-Creation-Date: 2016-08-01 17:43+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -14,11 +14,11 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: DOMAIN\n"
 
-#: brasil/gov/vlibrasnews/interfaces.py:20
-msgid "Add the secret token to call VLibras API."
+#: brasil/gov/vlibrasnews/interfaces.py:19
+msgid "Access Token"
 msgstr ""
 
-#: brasil/gov/vlibrasnews/interfaces.py:27
+#: brasil/gov/vlibrasnews/interfaces.py:26
 msgid "Enabled Content Types"
 msgstr ""
 
@@ -26,7 +26,7 @@ msgstr ""
 msgid "Libras translation being processed"
 msgstr ""
 
-#: brasil/gov/vlibrasnews/interfaces.py:28
+#: brasil/gov/vlibrasnews/interfaces.py:27
 msgid "Only objects of these content types will display vlibras icon."
 msgstr ""
 
@@ -42,16 +42,16 @@ msgstr ""
 msgid "Settings for the VLibras News API integration."
 msgstr ""
 
+#: brasil/gov/vlibrasnews/interfaces.py:20
+msgid "Token to access the VLibras News API service."
+msgstr ""
+
 #: brasil/gov/vlibrasnews/profiles.zcml:23
 msgid "Uninstalls brasil.gov.vlibrasnews."
 msgstr ""
 
 #: brasil/gov/vlibrasnews/controlpanel.py:12
 msgid "VLibras News"
-msgstr ""
-
-#: brasil/gov/vlibrasnews/interfaces.py:19
-msgid "VLibras News API Token"
 msgstr ""
 
 #: brasil/gov/vlibrasnews/profiles.zcml:14

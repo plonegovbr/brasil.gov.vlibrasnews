@@ -75,7 +75,7 @@ def post_news(context, event=None):
     :returns: true if request is 200
     :rtype: bool
     """
-    token = _get_registry('vlibrasnews_token')
+    token = _get_registry('access_token')
     if not _validate(context, token):
         return False
     headers = {'Authentication-Token': token}
@@ -112,7 +112,7 @@ def repost_news(context, event=None):
     :returns: true if request is 200
     :rtype: bool
     """
-    token = _get_registry('vlibrasnews_token')
+    token = _get_registry('access_token')
     if not _validate(context, token):
         return False
     headers = {'Authentication-Token': token}
@@ -148,7 +148,7 @@ def get_video_url(context):
     :raises:
         :class:`~brasil.gov.vlibras.exc.NotProcessingErrorError`,
     """
-    token = _get_registry('vlibrasnews_token')
+    token = _get_registry('access_token')
     if not _validate(context, token):
         return
     headers = {'Authentication-Token': token}
@@ -182,7 +182,7 @@ def delete_video(context, event=None):
     :returns: true if request is 200
     :rtype: bool
     """
-    token = _get_registry('vlibrasnews_token')
+    token = _get_registry('access_token')
     if not _validate(context, token):
         return False
     headers = {'Authentication-Token': token}

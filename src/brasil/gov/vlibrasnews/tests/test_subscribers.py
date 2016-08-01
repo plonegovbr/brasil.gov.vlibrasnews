@@ -22,8 +22,7 @@ class SubscribersTestCase(unittest.TestCase):
     def setUp(self):
         self.portal = self.layer['portal']
         api.portal.set_registry_record(
-            IVLibrasNewsSettings.__identifier__ + '.vlibrasnews_token',
-            u'no key')
+            IVLibrasNewsSettings.__identifier__ + '.access_token', 'no key')
         with HTTMock(vlibras_ok):
             with api.env.adopt_roles(['Manager']):
                 self.document = api.content.create(
@@ -35,13 +34,13 @@ class SubscribersTestCase(unittest.TestCase):
                     self.document, '<p>Content</p>')
 
     def test_get_registry(self):
-        self.assertEqual(subscribers._get_registry('vlibrasnews_token'), u'no key')
+        self.assertEqual(subscribers._get_registry('access_token'), 'no key')
         self.assertEqual(
             subscribers._get_registry('enabled_content_types', []),
             DEFAULT_ENABLED_CONTENT_TYPES)
 
     def test_validate(self):
-        self.assertTrue(subscribers._validate(self.document, u'no key'))
+        self.assertTrue(subscribers._validate(self.document, 'no key'))
 
     def test_post_news_ok(self):
         with HTTMock(vlibras_ok):

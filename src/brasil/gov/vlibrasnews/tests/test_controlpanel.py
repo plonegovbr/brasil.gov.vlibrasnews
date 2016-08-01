@@ -59,9 +59,9 @@ class RegistryTestCase(unittest.TestCase):
         self.registry = getUtility(IRegistry)
         self.settings = self.registry.forInterface(IVLibrasNewsSettings)
 
-    def test_vlibrasnews_token_record_in_registry(self):
-        self.assertTrue(hasattr(self.settings, 'vlibrasnews_token'))
-        self.assertEqual(self.settings.vlibrasnews_token, '')
+    def test_access_token_record_in_registry(self):
+        self.assertTrue(hasattr(self.settings, 'access_token'))
+        self.assertEqual(self.settings.access_token, '')
 
     def test_enabled_content_types_record_in_registry(self):
         self.assertTrue(hasattr(self.settings, 'enabled_content_types'))
@@ -74,7 +74,7 @@ class RegistryTestCase(unittest.TestCase):
             qi.uninstallProducts(products=[PROJECTNAME])
 
         records = [
-            IVLibrasNewsSettings.__identifier__ + '.vlibrasnews_token',
+            IVLibrasNewsSettings.__identifier__ + '.access_token',
             IVLibrasNewsSettings.__identifier__ + '.enabled_content_types'
         ]
 
