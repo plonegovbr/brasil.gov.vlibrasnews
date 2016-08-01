@@ -1,4 +1,4 @@
-brasil.gov.vlibrasvideo is Copyright 2016, PloneGovBr.
+brasil.gov.vlibrasnews is Copyright 2016, PloneGovBr.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

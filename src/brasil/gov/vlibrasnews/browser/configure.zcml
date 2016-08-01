@@ -1,0 +1,24 @@
+
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    i18n_domain="brasil.gov.vlibrasnews" >
+
+  <browser:page
+      name="vlibrasnews-settings"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      class="brasil.gov.vlibrasnews.controlpanel.VLibrasNewsSettingsControlPanel"
+      permission="cmf.ManagePortal"
+      layer="brasil.gov.vlibrasnews.interfaces.IVLibrasNewsLayer"
+      />
+
+  <browser:viewlet
+      name="brasil.gov.vlibrasnews.vlibrasnews"
+      manager="plone.app.layout.viewlets.interfaces.IBelowContentTitle"
+      class=".vlibrasnews.VLibrasNewsViewlet"
+      template="templates/vlibrasnews.pt"
+      permission="zope2.View"
+      layer="brasil.gov.vlibrasnews.interfaces.IVLibrasNewsLayer"
+      />
+
+</configure>

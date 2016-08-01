@@ -1,0 +1,51 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2016-07-06 14:58+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"Language-Code: en\n"
+"Language-Name: English\n"
+"Preferred-Encodings: utf-8 latin1\n"
+"Domain: DOMAIN\n"
+
+#: brasil/gov/vlibrasnews/interfaces.py:20
+msgid "Add the secret token to call VLibras API."
+msgstr ""
+
+#: brasil/gov/vlibrasnews/interfaces.py:27
+msgid "Enabled Content Types"
+msgstr ""
+
+#: brasil/gov/vlibrasnews/browser/templates/vlibrasnews.pt:12
+msgid "Libras translation being processed"
+msgstr ""
+
+#: brasil/gov/vlibrasnews/interfaces.py:28
+msgid "Only objects of these content types will display vlibras icon."
+msgstr ""
+
+#: brasil/gov/vlibrasnews/browser/templates/vlibrasnews.pt:4
+msgid "Open Libras translation"
+msgstr ""
+
+#: brasil/gov/vlibrasnews/controlpanel.py:13
+msgid "Settings for the brasil.gov.vlibrasnews package"
+msgstr ""
+
+#: brasil/gov/vlibrasnews/interfaces.py:19
+msgid "VLibras News API Token"
+msgstr ""
+
+#: brasil/gov/vlibrasnews/controlpanel.py:12
+msgid "vlibrasnews"
+msgstr ""
+
+#: brasil/gov/vlibrasnews/profiles/default/controlpanel.xml
+msgid "brasil.gov.vlibrasnews"
+msgstr ""
