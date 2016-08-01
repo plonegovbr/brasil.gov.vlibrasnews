@@ -9,10 +9,6 @@ VIDEO_URL = 'http://150.165.204.81:3000/videos/{0}'
 
 # by default, all standard content types will be enabled
 DEFAULT_ENABLED_CONTENT_TYPES = [
-    'Collection',
     'Document',
-    'Event',
-    'Folder',
-    'Link',
     'News Item'
 ]

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """Viewlets used on the package."""
 from brasil.gov.vlibrasnews.exc import NotProcessingError
+from brasil.gov.vlibrasnews.interfaces import IVLibrasNewsSettings
 from brasil.gov.vlibrasnews.subscribers import get_video_url
 from plone import api
 from plone.app.layout.viewlets.common import ViewletBase
@@ -25,4 +26,8 @@ class VLibrasNewsViewlet(ViewletBase):
         except NotProcessingError:
             self.state = 'notprocessing'
         finally:
-            self.enabled = self.is_ready or not api.user.is_anonymous()
+            record = '{0}.enabled_content_types'.format(
+                IVLibrasNewsSettings.__identifier__)
+            enabled_content_types = api.portal.get_registry_record(record)
+            if self.context.portal_type in enabled_content_types:
+                self.enabled = self.is_ready or not api.user.is_anonymous()
