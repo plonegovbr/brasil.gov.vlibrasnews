@@ -1,0 +1,63 @@
+#content #viewlet-vlibrasnews a
+{
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    display: block;
+    overflow: hidden;
+
+    width: 29px;
+    height: 29px;
+
+    cursor: default;
+    white-space: nowrap;
+    text-indent: 101%;
+
+    border-bottom: none;
+    background: url('++resource++brasil.gov.vlibrasnews/vlibrasnews-icon.svg') no-repeat;
+
+    -webkit-filter: brightness(250%) grayscale(100%);
+            filter: brightness(250%) grayscale(100%);
+}
+#content #viewlet-vlibrasnews a.ready,
+#content #viewlet-vlibrasnews a.playing
+{
+    cursor: pointer;
+
+    -webkit-filter: none;
+            filter: none;
+}
+#content #viewlet-vlibrasnews a.notprocessing
+{
+    background: #840505;
+
+    -webkit-filter: none;
+            filter: none;
+    -webkit-mask-image: url('++resource++brasil.gov.vlibrasnews/vlibrasnews-icon.svg');
+            mask-image: url('++resource++brasil.gov.vlibrasnews/vlibrasnews-icon.svg');
+}
+#vlibrasnews-player
+{
+    position: fixed;
+    z-index: 9999;
+    right: 20px;
+    bottom: 20px;
+}
+#vlibrasnews-player .close
+{
+    position: absolute;
+    top: -14px;
+    left: -14px;
+
+    overflow: hidden;
+
+    width: 30px;
+    height: 30px;
+
+    cursor: pointer;
+    white-space: nowrap;
+    text-indent: 101%;
+
+    background-image: url('++resource++plone.app.jquerytools.pb_close.png');
+}

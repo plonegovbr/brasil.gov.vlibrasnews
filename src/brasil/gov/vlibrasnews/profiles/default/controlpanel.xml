@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<object name="portal_controlpanel"
+    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    i18n:domain="brasil.gov.vlibrasnews"
+    purge="False">
+  <configlet title="brasil.gov.vlibrasnews"
+      action_id="vlibrasnews"
+      appId="brasil.gov.vlibrasnews"
+      category="Products"
+      condition_expr=""
+      url_expr="string:${portal_url}/@@vlibrasnews-settings"
+      icon_expr="string:${portal_url}/++resource++brasil.gov.vlibrasnews/vlibrasnews-icon.svg"
+      visible="True"
+      i18n:attributes="title">
+    <permission>Manage portal</permission>
+  </configlet>
+</object>

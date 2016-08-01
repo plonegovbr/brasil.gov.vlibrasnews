@@ -11,7 +11,7 @@ long_description = (
 )
 
 setup(
-    name='brasil.gov.vlibrasvideo',
+    name='brasil.gov.vlibrasnews',
     version=version,
     description=description,
     long_description=long_description,
@@ -32,7 +32,7 @@ setup(
     keywords='',
     author='Simples Consultoria',
     author_email='produtos@simplesconsultoria.com.br',
-    url='https://github.com/plonegovbr/brasil.gov.vlibrasvideo',
+    url='https://github.com/plonegovbr/brasil.gov.vlibrasnews',
     packages=find_packages('src'),
     package_dir={'': 'src'},
     namespace_packages=['brasil', 'brasil.gov'],
