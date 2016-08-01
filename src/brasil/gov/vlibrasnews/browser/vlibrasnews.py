@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Viewlets used on the package."""
 from brasil.gov.vlibrasnews.exc import NotProcessingError
-from brasil.gov.vlibrasnews.utils import get_video_url
+from brasil.gov.vlibrasnews.subscribers import get_video_url
 from plone import api
 from plone.app.layout.viewlets.common import ViewletBase
 

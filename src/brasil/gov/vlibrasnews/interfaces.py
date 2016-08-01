@@ -30,5 +30,5 @@ class IVLibrasNewsSettings(form.Schema):
         default=DEFAULT_ENABLED_CONTENT_TYPES,
         # we are going to list only the main content types in the widget
         value_type=schema.Choice(
-            vocabulary=u'brasil.gov.vlibrasnews.PortalTypes'),
+            vocabulary=u'plone.app.vocabularies.ReallyUserFriendlyTypes'),
     )
