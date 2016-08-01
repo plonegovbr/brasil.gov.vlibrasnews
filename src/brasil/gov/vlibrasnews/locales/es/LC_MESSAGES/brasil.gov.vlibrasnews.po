@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2016-07-06 14:58+0000\n"
-"PO-Revision-Date: 2016-04-07 20:08-0300\n"
+"POT-Creation-Date: 2016-08-01 17:31+0000\n"
+"PO-Revision-Date: 2016-08-01 14:32-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: DOMAIN\n"
 "Language: es\n"
-"X-Generator: Poedit 1.7.5\n"
+"X-Generator: Poedit 1.8.4\n"
 
 #: brasil/gov/vlibrasnews/interfaces.py:20
 msgid "Add the secret token to call VLibras API."
@@ -36,18 +36,31 @@ msgstr "Sólo los objetos de estos tipos de contenido se mostrarán vlibras icon
 msgid "Open Libras translation"
 msgstr "Abrir traducción Libras"
 
+#: brasil/gov/vlibrasnews/profiles.zcml:14
+msgid "Plone integration with VLibras News API, a service to generate LIBRAS video."
+msgstr "Integración en Plone de VLibras News API, un servicio para generar video de LIBRAS."
+
 #: brasil/gov/vlibrasnews/controlpanel.py:13
-msgid "Settings for the brasil.gov.vlibrasnews package"
-msgstr "Ajustes para el paquete brazil.gov.vlibrasnews"
+msgid "Settings for the VLibras News API integration."
+msgstr "Configuración de la integración con VLibras News API."
+
+#: brasil/gov/vlibrasnews/profiles.zcml:23
+msgid "Uninstalls brasil.gov.vlibrasnews."
+msgstr "Desinstala brasil.gov.vlibrasnews."
+
+#: brasil/gov/vlibrasnews/controlpanel.py:12
+msgid "VLibras News"
+msgstr "VLibras News"
 
 #: brasil/gov/vlibrasnews/interfaces.py:19
 msgid "VLibras News API Token"
 msgstr "Token del VLibras Video"
 
-#: brasil/gov/vlibrasnews/controlpanel.py:12
-msgid "vlibrasnews"
-msgstr ""
-
+#: brasil/gov/vlibrasnews/profiles.zcml:14
 #: brasil/gov/vlibrasnews/profiles/default/controlpanel.xml
 msgid "brasil.gov.vlibrasnews"
+msgstr ""
+
+#: brasil/gov/vlibrasnews/profiles.zcml:23
+msgid "brasil.gov.vlibrasnews: uninstall"
 msgstr ""

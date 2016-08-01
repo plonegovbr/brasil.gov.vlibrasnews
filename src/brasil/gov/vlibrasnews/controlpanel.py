@@ -9,8 +9,8 @@ class VLibrasNewsSettingsEditForm(controlpanel.RegistryEditForm):
     """Control panel edit form."""
 
     schema = IVLibrasNewsSettings
-    label = _(u'VLibrasNews')
-    description = _(u'Settings for the brasil.gov.vlibrasnews package')
+    label = _(u'VLibras News')
+    description = _(u'Settings for the VLibras News API integration.')
 
 
 class VLibrasNewsSettingsControlPanel(controlpanel.ControlPanelFormWrapper):
