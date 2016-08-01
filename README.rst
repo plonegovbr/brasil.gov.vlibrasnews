@@ -1,6 +1,6 @@
-***************************************************************
-`.gov.br: Tradução de Português para Libras`
-***************************************************************
+***************************************
+Integração do VLibras News API no Plone
+***************************************
 
 .. contents:: Conteúdo
    :depth: 2
@@ -8,17 +8,13 @@
 Introdução
 -----------
 
-Este pacote integra o VLibras News API, desenvolvido pelo `Laboratório de Aplicações de Video Digital - LAViD`_, um Tradutor de Português para Libras para Plone.
+Este pacote integra no Plone o VLibras News API,
+um serviço desenvolvido pelo `Laboratório de Aplicações de Video Digital <http://lavid.ufpb.br/>`_ para gerar vídeo de `LIBRAS <http://vlibras.gov.br/>`_ .
 
-
+Este pacote suporta somente tipos de conteúdo Dexterity.
 
 Estado deste pacote
----------------------
-
-O **brasil.gov.vlibrasnews** tem testes automatizados e, a cada alteração em seu
-código os testes são executados pelo serviço Travis.
-
-O estado atual dos testes pode ser visto nas imagens a seguir:
+-------------------
 
 .. image:: http://img.shields.io/pypi/v/brasil.gov.vlibrasnews.svg
     :target: https://pypi.python.org/pypi/brasil.gov.vlibrasnews
@@ -29,32 +25,28 @@ O estado atual dos testes pode ser visto nas imagens a seguir:
 .. image:: https://img.shields.io/coveralls/plonegovbr/brasil.gov.vlibrasnews/master.svg
     :target: https://coveralls.io/r/plonegovbr/brasil.gov.vlibrasnews
 
-.. warning:: Neste momento utilizamos a versão 1.0 do plone.app.contenttypes.
-             A versão 1.1a1 introduziu mudanças na maneira como o Plone trabalha com Eventos.
-
-Este pacote suporta somente tipos de conteúdo Dexterity.
-
-
 Instalação
-------------
+----------
 
-Para habilitar a instalação deste produto em um ambiente que utilize o
-buildout:
+Para habilitar a instalação deste produto em um ambiente que utilize o buildout:
 
 1. Editar o arquivo buildout.cfg (ou outro arquivo de configuração) e
-   adicionar o pacote ``brasil.gov.vlibrasnews`` à lista de eggs da instalação::
+   adicionar o pacote ``brasil.gov.vlibrasnews`` à lista de eggs da instalação:
 
-        [buildout]
-        ...
-        eggs =
-            brasil.gov.vlibrasnews
+.. code-block:: ini
 
-2. Após alterar o arquivo de configuração é necessário executar
-   ''bin/buildout'', que atualizará sua instalação.
+      [buildout]
+      ...
+      eggs =
+          brasil.gov.vlibrasnews
+
+2. Após alterar o arquivo de configuração é necessário executar ''bin/buildout'', que atualizará sua instalação.
 
 3. Reinicie o Plone
 
-4. Acesse o painel de controle e instale o produto
-**.gov.br: Tradução de Português para Libras**.
+4. Acesse o painel de controle e instale o produto **.gov.br: Tradução de Português para Libras**.
 
-.. _`Laboratório de Aplicações de Video Digital - LAViD`: http://lavid.ufpb.br/
+Uso
+---
+
+TBD.
