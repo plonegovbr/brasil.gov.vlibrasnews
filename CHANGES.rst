@@ -4,7 +4,8 @@ Changelog
 1.0b1 (unreleased)
 ^^^^^^^^^^^^^^^^^^
 
-- Nothing changed yet.
+- Fix button translation.
+  [rodfersou]
 
 
 1.0a1 (2016-08-01)

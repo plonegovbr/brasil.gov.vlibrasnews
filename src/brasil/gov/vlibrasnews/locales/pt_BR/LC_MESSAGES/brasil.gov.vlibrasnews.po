@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2016-08-01 17:43+0000\n"
+"POT-Creation-Date: 2016-08-02 18:11+0000\n"
 "PO-Revision-Date: 2016-08-01 14:44-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -24,7 +24,7 @@ msgstr "Token de acesso"
 msgid "Enabled Content Types"
 msgstr "Tipos de conteúdo habilitados"
 
-#: brasil/gov/vlibrasnews/browser/templates/vlibrasnews.pt:12
+#: brasil/gov/vlibrasnews/browser/templates/vlibrasnews.pt:13
 msgid "Libras translation being processed"
 msgstr "Vídeo com a tradução em libras sendo processado"
 
@@ -32,7 +32,7 @@ msgstr "Vídeo com a tradução em libras sendo processado"
 msgid "Only objects of these content types will display vlibras icon."
 msgstr "Somente objetos desses tipos de conteúdo será exibido o ícone do vlibras."
 
-#: brasil/gov/vlibrasnews/browser/templates/vlibrasnews.pt:4
+#: brasil/gov/vlibrasnews/browser/templates/vlibrasnews.pt:5
 msgid "Open Libras translation"
 msgstr "Abrir tradução de Libras"
 
@@ -64,3 +64,13 @@ msgstr ""
 #: brasil/gov/vlibrasnews/profiles.zcml:23
 msgid "brasil.gov.vlibrasnews: uninstall"
 msgstr ""
+
+#. Default: "Libras translation being processed"
+#: brasil/gov/vlibrasnews/browser/templates/vlibrasnews.pt:13
+msgid "vlibras-not-ready"
+msgstr "Tradução de libras sendo processada"
+
+#. Default: "Open Libras translation"
+#: brasil/gov/vlibrasnews/browser/templates/vlibrasnews.pt:5
+msgid "vlibras-ready"
+msgstr "Abrir tradução de Libras"
