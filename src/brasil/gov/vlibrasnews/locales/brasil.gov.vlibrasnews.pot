@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2016-08-01 17:43+0000\n"
+"POT-Creation-Date: 2016-08-02 18:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,7 +22,7 @@ msgstr ""
 msgid "Enabled Content Types"
 msgstr ""
 
-#: brasil/gov/vlibrasnews/browser/templates/vlibrasnews.pt:12
+#: brasil/gov/vlibrasnews/browser/templates/vlibrasnews.pt:13
 msgid "Libras translation being processed"
 msgstr ""
 
@@ -30,7 +30,7 @@ msgstr ""
 msgid "Only objects of these content types will display vlibras icon."
 msgstr ""
 
-#: brasil/gov/vlibrasnews/browser/templates/vlibrasnews.pt:4
+#: brasil/gov/vlibrasnews/browser/templates/vlibrasnews.pt:5
 msgid "Open Libras translation"
 msgstr ""
 
@@ -61,4 +61,14 @@ msgstr ""
 
 #: brasil/gov/vlibrasnews/profiles.zcml:23
 msgid "brasil.gov.vlibrasnews: uninstall"
+msgstr ""
+
+#. Default: "Libras translation being processed"
+#: brasil/gov/vlibrasnews/browser/templates/vlibrasnews.pt:13
+msgid "vlibras-not-ready"
+msgstr ""
+
+#. Default: "Open Libras translation"
+#: brasil/gov/vlibrasnews/browser/templates/vlibrasnews.pt:5
+msgid "vlibras-ready"
 msgstr ""
