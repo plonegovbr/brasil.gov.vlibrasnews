@@ -6,21 +6,21 @@
       zcml:condition="installed plone.app.dexterity"
       for="plone.dexterity.interfaces.IDexterityContent
            Products.CMFCore.interfaces.IActionSucceededEvent"
-      handler=".subscribers.create_translation"
+      handler="brasil.gov.vlibrasnews.subscribers.workflow_change_handler"
       />
 
   <subscriber
       zcml:condition="installed plone.app.dexterity"
       for="plone.dexterity.interfaces.IDexterityContent
            zope.lifecycleevent.IObjectModifiedEvent"
-      handler=".subscribers.update_translation"
+      handler="brasil.gov.vlibrasnews.subscribers.update_content_handler"
       />
 
   <subscriber
       zcml:condition="installed plone.app.dexterity"
       for="plone.dexterity.interfaces.IDexterityContent
            zope.lifecycleevent.IObjectRemovedEvent"
-      handler=".subscribers.delete_translation"
+      handler="brasil.gov.vlibrasnews.subscribers.delete_content_handler"
       />
 
 </configure>
