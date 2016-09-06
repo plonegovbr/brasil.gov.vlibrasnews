@@ -1,16 +1,15 @@
 # -*- coding: utf-8 -*-
 from brasil.gov.vlibrasnews import subscribers
-from brasil.gov.vlibrasnews.config import DEFAULT_ENABLED_CONTENT_TYPES
-from brasil.gov.vlibrasnews.exc import NotProcessingError
 from brasil.gov.vlibrasnews.interfaces import IVLibrasNewsSettings
 from brasil.gov.vlibrasnews.testing import INTEGRATION_TESTING
-from brasil.gov.vlibrasnews.tests.api_hacks import set_text_field
 from brasil.gov.vlibrasnews.tests.vlibras_mock import request_exception
 from brasil.gov.vlibrasnews.tests.vlibras_mock import vlibras_error
 from brasil.gov.vlibrasnews.tests.vlibras_mock import vlibras_ok
 from brasil.gov.vlibrasnews.tests.vlibras_mock import vlibras_processing
 from httmock import HTTMock
+from mock import Mock
 from plone import api
+from plone.app.textfield.value import RichTextValue
 
 import unittest
 
@@ -21,67 +20,87 @@ class SubscribersTestCase(unittest.TestCase):
 
     def setUp(self):
         self.portal = self.layer['portal']
-        api.portal.set_registry_record(
-            IVLibrasNewsSettings.__identifier__ + '.access_token', 'no key')
+        self.request = self.layer['request']
+        record = IVLibrasNewsSettings.__identifier__ + '.access_token'
+        api.portal.set_registry_record(record, 'no key')
+        text = RichTextValue('<p>Content</p>', 'text/html', 'text/html')
         with HTTMock(vlibras_ok):
             with api.env.adopt_roles(['Manager']):
                 self.document = api.content.create(
-                    type='Document',
+                    container=self.portal,
+                    type='News Item',
                     title='My Content',
                     description='Description',
-                    container=self.portal)
-                set_text_field(
-                    self.document, '<p>Content</p>')
+                    text=text,
+                )
 
-    def test_get_registry(self):
-        self.assertEqual(subscribers._get_registry('access_token'), 'no key')
-        self.assertEqual(
-            subscribers._get_registry('enabled_content_types', []),
-            DEFAULT_ENABLED_CONTENT_TYPES)
+    def test_get_registry_record(self):
+        self.assertEqual(subscribers._get_registry_record('access_token'), 'no key')
 
     def test_validate(self):
         self.assertTrue(subscribers._validate(self.document, 'no key'))
 
-    def test_post_news_ok(self):
+    def test_is_published(self):
+        self.assertTrue(subscribers._is_published(self.document))
+
+    def test_deletion_confirmed(self):
+        self.assertFalse(subscribers._deletion_confirmed())
+        self.request.URL += 'delete_confirmation'
+        self.request.REQUEST_METHOD = 'POST'
+        self.request.form['form.submitted'] = 1
+        self.assertTrue(subscribers._deletion_confirmed())
+
+    def test_create_translation_ok(self):
         with HTTMock(vlibras_ok):
-            self.assertTrue(subscribers.post_news(self.document))
+            self.assertTrue(subscribers.create_translation(self.document, Mock(action='publish')))
 
-    def test_post_news_error(self):
+    def test_create_translation_error(self):
         with HTTMock(vlibras_error):
-            self.assertFalse(subscribers.post_news(self.document))
+            self.assertFalse(subscribers.create_translation(self.document, Mock(action='publish')))
         with HTTMock(request_exception):
-            self.assertFalse(subscribers.post_news(self.document))
+            self.assertFalse(subscribers.create_translation(self.document, Mock(action='publish')))
 
-    def test_repost_news_ok(self):
+    def test_update_translation_ok(self):
         with HTTMock(vlibras_ok):
-            self.assertTrue(subscribers.repost_news(self.document))
+            self.assertTrue(subscribers.update_translation(self.document, None))
 
-    def test_repost_news_error(self):
+    def test_update_translation_error(self):
         with HTTMock(vlibras_error):
-            self.assertFalse(subscribers.repost_news(self.document))
+            self.assertFalse(subscribers.update_translation(self.document, None))
         with HTTMock(request_exception):
-            self.assertFalse(subscribers.repost_news(self.document))
+            self.assertFalse(subscribers.update_translation(self.document, None))
 
     def test_get_video_url_ok(self):
         with HTTMock(vlibras_ok):
-            video_url = subscribers.get_video_url(self.document)
-            self.assertEqual(video_url, 'https://www.youtube.com/embed/ds2gGAbPJz8')
+            subscribers.get_video_url(self.document)
+            self.assertEqual(self.document.video_url, 'https://www.youtube.com/embed/ds2gGAbPJz8')
+
+    def test_get_video_url_processing(self):
+        with HTTMock(vlibras_processing):
+            subscribers.get_video_url(self.document)
+            self.assertEqual(self.document.video_url, '')
 
     def test_get_video_url_error(self):
         with HTTMock(vlibras_error):
-            with self.assertRaises(NotProcessingError):
-                subscribers.get_video_url(self.document)
-        with HTTMock(vlibras_processing):
-            self.assertIsNone(subscribers.get_video_url(self.document))
+            subscribers.get_video_url(self.document)
+            self.assertIsNone(self.document.video_url)
         with HTTMock(request_exception):
-            self.assertIsNone(subscribers.get_video_url(self.document))
+            subscribers.get_video_url(self.document)
+            self.assertIsNone(self.document.video_url)
 
-    def test_delete_video_ok(self):
+    def test_delete_translation_ok(self):
         with HTTMock(vlibras_ok):
-            self.assertTrue(subscribers.delete_video(self.document))
+            self.request.URL += 'delete_confirmation'
+            self.request.REQUEST_METHOD = 'POST'
+            self.request.form['form.submitted'] = 1
+            self.assertTrue(subscribers.delete_translation(self.document, Mock(action='publish')))
 
-    def test_delete_video_error(self):
+    def test_delete_on_unpublish(self):
+        with HTTMock(vlibras_ok):
+            self.assertTrue(subscribers.create_translation(self.document, Mock(action='reject')))
+
+    def test_delete_translation_error(self):
         with HTTMock(vlibras_error):
-            self.assertFalse(subscribers.delete_video(self.document))
+            self.assertFalse(subscribers.delete_translation(self.document, Mock(action='publish')))
         with HTTMock(request_exception):
-            self.assertFalse(subscribers.delete_video(self.document))
+            self.assertFalse(subscribers.delete_translation(self.document, Mock(action='publish')))

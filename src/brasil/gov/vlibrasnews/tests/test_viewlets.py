@@ -27,7 +27,7 @@ class ViewletTestCase(unittest.TestCase):
         with HTTMock(vlibras_ok):
             with api.env.adopt_roles(['Manager']):
                 self.document = api.content.create(
-                    type='Document',
+                    type='News Item',
                     title='My Content',
                     container=self.portal)
 

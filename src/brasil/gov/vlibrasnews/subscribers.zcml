@@ -6,19 +6,21 @@
       zcml:condition="installed plone.app.dexterity"
       for="plone.dexterity.interfaces.IDexterityContent
            Products.CMFCore.interfaces.IActionSucceededEvent"
-      handler=".subscribers.post_news"
+      handler=".subscribers.create_translation"
       />
+
   <subscriber
       zcml:condition="installed plone.app.dexterity"
       for="plone.dexterity.interfaces.IDexterityContent
            zope.lifecycleevent.IObjectModifiedEvent"
-      handler=".subscribers.repost_news"
+      handler=".subscribers.update_translation"
       />
+
   <subscriber
       zcml:condition="installed plone.app.dexterity"
       for="plone.dexterity.interfaces.IDexterityContent
            zope.lifecycleevent.IObjectRemovedEvent"
-      handler=".subscribers.delete_video"
+      handler=".subscribers.delete_translation"
       />
 
 </configure>

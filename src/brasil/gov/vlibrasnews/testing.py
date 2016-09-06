@@ -4,21 +4,14 @@
 For Plone 5 we need to install plone.app.contenttypes.
 """
 from plone import api
+from plone.app.contenttypes.testing import PLONE_APP_CONTENTTYPES_FIXTURE as PLONE_FIXTURE
 from plone.app.robotframework.testing import AUTOLOGIN_LIBRARY_FIXTURE
 from plone.app.testing import FunctionalTesting
 from plone.app.testing import IntegrationTesting
 from plone.app.testing import PloneSandboxLayer
+from plone.dexterity.interfaces import IDexterityFTI
 from plone.testing import z2
-
-import pkg_resources
-
-
-try:
-    pkg_resources.get_distribution('plone.app.contenttypes')
-except pkg_resources.DistributionNotFound:
-    from plone.app.testing import PLONE_FIXTURE
-else:
-    from plone.app.contenttypes.testing import PLONE_APP_CONTENTTYPES_FIXTURE as PLONE_FIXTURE
+from zope.component import queryUtility
 
 
 IS_PLONE_5 = api.env.plone_version().startswith('5')
@@ -34,7 +27,18 @@ class Fixture(PloneSandboxLayer):
 
     def setUpPloneSite(self, portal):
         self.applyProfile(portal, 'brasil.gov.vlibrasnews:default')
+        self._enable_vlibras_behavior('News Item')
         portal.portal_workflow.setDefaultChain('one_state_workflow')
+
+    def _enable_vlibras_behavior(self, portal_type):
+        """Enable Vlibras Behavior for News Item."""
+        fti = queryUtility(IDexterityFTI, name=portal_type)
+        behavior = 'brasil.gov.vlibrasnews.behaviors.IVLibrasNews'
+        if behavior in fti.behaviors:
+            return
+        behaviors = list(fti.behaviors)
+        behaviors.append(behavior)
+        fti.behaviors = tuple(behaviors)
 
 
 FIXTURE = Fixture()

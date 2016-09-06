@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from brasil.gov.vlibrasnews.config import DEFAULT_ENABLED_CONTENT_TYPES
 from brasil.gov.vlibrasnews.config import PROJECTNAME
 from brasil.gov.vlibrasnews.controlpanel import IVLibrasNewsSettings
 from brasil.gov.vlibrasnews.interfaces import IVLibrasNewsLayer
@@ -63,10 +62,6 @@ class RegistryTestCase(unittest.TestCase):
         self.assertTrue(hasattr(self.settings, 'access_token'))
         self.assertEqual(self.settings.access_token, '')
 
-    def test_enabled_content_types_record_in_registry(self):
-        self.assertTrue(hasattr(self.settings, 'enabled_content_types'))
-        self.assertEqual(self.settings.enabled_content_types, DEFAULT_ENABLED_CONTENT_TYPES)
-
     def test_records_removed_on_uninstall(self):
         qi = self.portal['portal_quickinstaller']
 
@@ -75,7 +70,6 @@ class RegistryTestCase(unittest.TestCase):
 
         records = [
             IVLibrasNewsSettings.__identifier__ + '.access_token',
-            IVLibrasNewsSettings.__identifier__ + '.enabled_content_types'
         ]
 
         for r in records:

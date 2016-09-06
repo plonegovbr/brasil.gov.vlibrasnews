@@ -7,12 +7,11 @@
 
   <five:registerPackage package="." />
 
-  <include package="plone.app.dexterity" />
-  <include package="plone.directives.form" file="meta.zcml" />
-  <include package="plone.directives.form" />
+  <include package="Products.CMFCore" file="permissions.zcml" />
 
   <include package=".browser" />
 
+  <include file="behaviors.zcml" />
   <include file="profiles.zcml" />
   <include file="subscribers.zcml" />
 

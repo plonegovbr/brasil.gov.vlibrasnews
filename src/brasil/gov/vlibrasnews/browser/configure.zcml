@@ -16,7 +16,7 @@
       name="brasil.gov.vlibrasnews.vlibrasnews"
       manager="plone.app.layout.viewlets.interfaces.IBelowContentTitle"
       class=".vlibrasnews.VLibrasNewsViewlet"
-      template="templates/vlibrasnews.pt"
+      template="vlibrasnews.pt"
       permission="zope2.View"
       layer="brasil.gov.vlibrasnews.interfaces.IVLibrasNewsLayer"
       />

@@ -8,10 +8,10 @@ Integração do VLibras News API no Plone
 Introdução
 -----------
 
-Este pacote integra no Plone o VLibras News API,
-um serviço desenvolvido pelo `Laboratório de Aplicações de Video Digital <http://lavid.ufpb.br/>`_ para gerar vídeo de `LIBRAS <http://vlibras.gov.br/>`_ .
+O VLibras News API é um serviço desenvolvido pelo `Laboratório de Aplicações de Video Digital <http://lavid.ufpb.br/>`_ para gerar traduções para `LIBRAS <http://vlibras.gov.br/>`_ em forma de vídeos armazenados no YouTube.
 
-Este pacote suporta somente tipos de conteúdo Dexterity.
+Este pacote é uma integração do VLibras News API no Plone,
+atraves de um behavior para tipos de conteúdo Dexterity.
 
 Estado deste pacote
 -------------------
@@ -44,9 +44,32 @@ Para habilitar a instalação deste produto em um ambiente que utilize o buildou
 
 3. Reinicie o Plone
 
-4. Acesse o painel de controle e instale o produto **.gov.br: Tradução de Português para Libras**.
+4. Acesse o painel de controle e instale o produto **.gov.br: Tradução de Português para LIBRAS**.
 
 Uso
 ---
 
-TBD.
+Após instalar o pacote é preciso ir na 'Configuração do Site',
+selecionar 'VLibras News API' nas 'Configurações de Complementos',
+e informar o token de acesso.
+
+Para ativar o behavior é necessário ir em 'Tipos de conteúdo Dexterity',
+selecionar o tipo de conteúdo que será processado,
+e habilitar o behavior 'VLibras News'.
+
+Um novo campo de só leitura será disponibilizado para armazenar o endereço do vídeo com a tradução a LIBRAS do conteúdo processado.
+
+Como funciona
+-------------
+
+Quando um usuário publicar um objeto de um tipo de conteúdo com o behavior habilitado,
+uma requisição é feita na API para criar um vídeo com a tradução do conteúdo para LIBRAS.
+
+A partir desse momento a API é consultada periodicamente para conhecer o estado do processamento do vídeo.
+Quando o vídeo ficar pronto para visualização, um viewlet disponibiliza um player para assistir o video.
+
+Caso o conteúdo for modificado,
+o vídeo anterior é retirado e uma nova requisição é feita para criar um novo vídeo com a tradução do conteúdo atualizado para LIBRAS.
+
+Caso o conteúdo for excluido,
+uma requisição é feita para excluir também o vídeo com a tradução do conteúdo para LIBRAS.
