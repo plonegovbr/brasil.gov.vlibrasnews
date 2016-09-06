@@ -42,17 +42,17 @@ class ViewletTestCase(unittest.TestCase):
             viewlet = self.viewlet(self.document)
             self.assertTrue(viewlet.enabled)
 
-    def test_processing(self):
+    def test_state_on_processing(self):
         with HTTMock(vlibras_processing):
             viewlet = self.viewlet(self.document)
             self.assertEqual(viewlet.state, 'processing')
 
-    def test_notprocessing(self):
+    def test_state_on_error(self):
         with HTTMock(vlibras_error):
             viewlet = self.viewlet(self.document)
-            self.assertEqual(viewlet.state, 'notprocessing')
+            self.assertEqual(viewlet.state, 'processing')  # no change
 
-    def test_is_ready(self):
+    def test_state_when_ready(self):
         with HTTMock(vlibras_ok):
             viewlet = self.viewlet(self.document)
             self.assertEqual(

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Viewlets used on the package."""
 from brasil.gov.vlibrasnews.behaviors import IVLibrasNews
-from brasil.gov.vlibrasnews.subscribers import get_video_url
+from brasil.gov.vlibrasnews.subscribers import get_translation_url
 from plone import api
 from plone.app.layout.viewlets.common import ViewletBase
 from plone.memoize import ram
@@ -31,10 +31,10 @@ class VLibrasNewsViewlet(ViewletBase):
         return 'ready'
 
     @ram.cache(lambda method, self, context: (time() // 60, context))
-    def _get_video_url(self, context):
-        get_video_url(context)
+    def _get_translation_url(self, context):
+        get_translation_url(context)
         return getattr(context, 'video_url', None)
 
     @property
     def video_url(self):
-        return self._get_video_url(self.context)
+        return self._get_translation_url(self.context)

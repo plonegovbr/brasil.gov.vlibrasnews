@@ -1,107 +1,39 @@
 # -*- coding: utf-8 -*-
 from brasil.gov.vlibrasnews import _
+from brasil.gov.vlibrasnews.api import api_error_handler
+from brasil.gov.vlibrasnews.api import VLibrasNews
+from brasil.gov.vlibrasnews.api import VLibrasNewsError
 from brasil.gov.vlibrasnews.behaviors import IVLibrasNews
-from brasil.gov.vlibrasnews.config import POST_URL
-from brasil.gov.vlibrasnews.config import REPOST_URL
-from brasil.gov.vlibrasnews.config import REQUEST_TIMEOUT
-from brasil.gov.vlibrasnews.config import VIDEO_URL
 from brasil.gov.vlibrasnews.interfaces import IVLibrasNewsSettings
 from brasil.gov.vlibrasnews.logger import logger
 from plone import api
 from plone.app.textfield.interfaces import ITransformer
-from Products.CMFCore.WorkflowCore import WorkflowException
 from Products.CMFPlone.utils import safe_unicode
-from requests.exceptions import RequestException
 from zope.component.interfaces import ComponentLookupError
 from zope.globalrequest import getRequest
 
-import requests
-
-SUCCESS = _(u'The request was successfully processed.')
-CREATE_ERROR = _(u'There was an error while creating the LIBRAS translation.')
-UPDATE_ERROR = _(u'There was an error while updating the LIBRAS translation.')
-DELETE_ERROR = _(u'There was an error while deleting the LIBRAS translation.')
+SUCCESS = u'The request was successfully processed.'
+EMPTY = _(u'None')
 
 
-class VLibrasNewsError(Exception):
-
-    """Exception raised for errors accessing VLibras News API."""
-
-    def __init__(self, msg, log):
-        self.msg = msg  # a message to show to end users
-        self.log = log  # a message to log as an error
-
-
-def error_handler(func):
-    """Decorator to deal with errors accessing VLibras News API."""
-
-    def func_wrapper(context, event):
-        try:
-            return func(context, event)
-        except VLibrasNewsError as e:
-            api.portal.show_message(e.msg, request=getRequest(), type='error')
-            logger.error(e.log)
-            return False
-
-    return func_wrapper
-
-
-def _get_registry_record(name):
-    """Return the record and treat exceptions.
-    :param name: [required] Record name
-    :type name: string
-    :returns: Registry record value
-    :rtype: any
-    """
-    record = dict(interface=IVLibrasNewsSettings, name=name)
+# TODO: move exception handling to api_api_error_handler to get rid of this
+def _get_token_from_registry():
+    """Return the token from the registry and treat exceptions."""
+    record = dict(interface=IVLibrasNewsSettings, name='access_token')
     try:
         value = api.portal.get_registry_record(**record)
-    except (api.exc.InvalidParameterError, ComponentLookupError):
+    except api.exc.InvalidParameterError:  # error?
+        logger.error(u'Missing VLibras News API authentication token record')
+        return
+    except ComponentLookupError:  # package not installed?
         return
 
-    msg = 'Using "{0}" as Access Token for VLibras News API'
-    logger.info(msg.format(value))
+    if not value:
+        logger.error(u'VLibras News API authentication token is not defined')
+        return
+
+    logger.info(u'Using "{0}" as authentication token'.format(value))
     return value
-
-
-def _validate(context, token):
-    """Validate if object is ready to communicate with VLibras API.
-    :param context: [required] Content object
-    :type context: content object
-    :param token: [required] Token used to access API
-    :type token: string
-    :returns: true if object is ready
-    :rtype: bool
-    """
-    # check if context has VLibras News behavior
-    if not IVLibrasNews.providedBy(context):
-        logger.info('IVLibrasNews not enabled on context')
-        return False
-
-    # check if has token
-    has_token = bool(token)
-    if not has_token:
-        logger.error('VLibras News API Access Token must be informed in the control panel')
-    return has_token
-
-
-def _is_published(context):
-    """Check if object is published.
-    :param context: [required] Content object
-    :type context: content object
-    :returns: True if object is published
-    :rtype: bool
-    """
-    # check if object is published
-    state = 'private'
-    try:
-        state = api.content.get_state(obj=context)
-    except WorkflowException, api.exc.CannotGetPortalError:
-        pass
-    if state != 'published':
-        logger.info('Context state is not "published"')
-        return False
-    return True
 
 
 def _deletion_confirmed():
@@ -123,156 +55,127 @@ def _deletion_confirmed():
     return is_delete_confirmation and is_post and form_being_submitted
 
 
-def get_data(context, include_id=False):
-    """Return the payload to be used in VLibras News API calls."""
+def get_content(context, default=EMPTY):
+    """Return the content to be used in VLibras News API calls. As the
+    API doesn't accept empty payload, we need to be sure all keys have
+    a default value.
+    """
+    title = safe_unicode(context.Title()) or default
+    description = safe_unicode(context.Description()) or default
+
     try:
         transformer = ITransformer(context)
         text = transformer(context.text, 'text/plain')
     except AttributeError:
         text = u''
+    content = safe_unicode(text) or default
 
-    data = dict(
-        title=safe_unicode(context.Title()),
-        description=safe_unicode(context.Description()),
-        content=safe_unicode(text),
-    )
-
-    if include_id:
-        data['id'] = context.UID()
-
-    return data
+    return dict(title=title, description=description, content=content)
 
 
-@error_handler
-def create_translation(context, event):
-    """Create a LIBRAS translation using VLibras News API.
-    :param context: [required] Content object
+@api_error_handler
+def workflow_change_handler(context, event):
+    """Deal with creation or deletion of translations based on changes
+    on the workflow state: if an item is published, we need to create
+    a translation; if it's being removed, we need to delete the
+    translation.
+
+    :param context: the item being processsed
     :type context: Dexterity-based content type
     :param event: event rised
     :type event: subscriber event
     :returns: True on success
     :rtype: bool
-    :raises: VLibrasNewsError
+    :raises brasil.gov.vlibrasnews.api.VLibrasNewsError: on error
     """
-    # Unpublish item
-    if event.action != 'publish':
-        return delete_translation(context, event)
+    if not IVLibrasNews.providedBy(context):
+        return  # nothing to do
 
-    token = _get_registry_record('access_token')
-    if not _validate(context, token):
-        return False
+    token = _get_token_from_registry()
+    if not token:  # package not installed, token not defined or error
+        return
 
-    params = dict(
-        url=POST_URL,
-        headers={'Authentication-Token': token},
-        data=get_data(context, include_id=True),
-        timeout=REQUEST_TIMEOUT,
-    )
+    vlibrasnews = VLibrasNews(token=token)
 
-    logger.info('Creating translation for ' + context.absolute_url())
-    logger.info('POST - {0}'.format(params))
+    if event.action == 'publish':
+        # the object is being published, create a translation
+        payload = get_content(context)
+        logger.info('Creating translation for ' + context.absolute_url())
+        vlibrasnews.create(context.UID(), payload)
+        context.video_url = ''
+    elif event.action in ('reject', 'retract'):
+        # other actions could be an indication of unpublishing
+        # check if the translation exists and delete it
+        if vlibrasnews.get(context.UID()):
+            logger.info('Deleting translation for ' + context.absolute_url())
+            vlibrasnews.delete(context.UID())
+    else:
+        return  # nothing to do
 
-    try:
-        response = requests.post(**params)
-    except RequestException as e:  # skip on timeouts and other errors
-        raise VLibrasNewsError(CREATE_ERROR, e.message)
-
-    if response.status_code != 200:
-        log = u'Status code {0} ({1})'.format(response.status_code, response.reason)
-        raise VLibrasNewsError(CREATE_ERROR, log)
-
-    context.video_url = ''
     logger.info(SUCCESS)
     return True
 
 
-@error_handler
-def update_translation(context, event):
-    """Update a LIBRAS translation using VLibras News API.
-    :param context: item being updated
+@api_error_handler
+def update_content_handler(context, event):
+    """Deal with updates of translations based on changes on content.
+
+    :param context: the item being processsed
     :type context: Dexterity-based content type
     :param event: event fired
     :type event: subscriber event
     :returns: True on success
     :rtype: bool
-    :raises: VLibrasNewsError
+    :raises brasil.gov.vlibrasnews.api.VLibrasNewsError: on error
     """
-    token = _get_registry_record('access_token')
-    if not _validate(context, token):
-        return False
-    if not _is_published(context):
-        return False
+    if not IVLibrasNews.providedBy(context):
+        return  # nothing to do
 
-    params = dict(
-        url=REPOST_URL.format(context.UID()),
-        headers={'Authentication-Token': token},
-        data=get_data(context),
-        timeout=REQUEST_TIMEOUT,
-    )
+    if api.content.get_state(context) != 'published':
+        return  # nothing to do; translaton doesn't exist
 
-    logger.info('Updating translation for ' + context.absolute_url())
-    logger.info('PUT - {0}'.format(params))
+    token = _get_token_from_registry()
+    if not token:  # package not installed, token not defined or error
+        return
 
-    try:
-        response = requests.put(**params)
-    except RequestException as e:  # skip on timeouts and other errors
-        raise VLibrasNewsError(UPDATE_ERROR, e.message)
-
-    if response.status_code != 200:
-        log = u'Status code {0} ({1})'.format(response.status_code, response.reason)
-        raise VLibrasNewsError(UPDATE_ERROR, log)
+    vlibrasnews = VLibrasNews(token=token)
+    payload = get_content(context)
+    logger.info('Updating LIBRAS translation for ' + context.absolute_url())
+    vlibrasnews.update(context.UID(), payload)
 
     logger.info(SUCCESS)
     return True
 
 
-def get_video_url(context):
+# XXX: this doesn't belong here
+def get_translation_url(context):
     """Get the URL of a LIBRAS translation using VLibras News API.
 
-    :param context: item being processed
+    :param context: the item being processsed
     :type context: Dexterity-based content type
-    :returns: URL of the translation if available
-    :rtype: string or None
+    :raises brasil.gov.vlibrasnews.api.VLibrasNewsError: on error
     """
-    token = _get_registry_record('access_token')
-    if not _validate(context, token):
-        return
-    if not _is_published(context):
+    if not IVLibrasNews.providedBy(context):
+        return  # nothing to do
+
+    if api.content.get_state(context) != 'published':
+        return  # nothing to do; translaton doesn't exist
+
+    token = _get_token_from_registry()
+    if not token:  # package not installed, token not defined or error
         return
 
-    # skip old contents
-    if context.video_url is None:
-        return
-
-    params = dict(
-        url=VIDEO_URL.format(context.UID()),
-        headers={'Authentication-Token': token},
-        timeout=REQUEST_TIMEOUT,
-    )
-    logger.info('GET - {0}'.format(params))
+    vlibrasnews = VLibrasNews(token=token)
+    logger.info('Getting LIBRAS translation for ' + context.absolute_url())
     try:
-        response = requests.get(**params)
-    except RequestException as e:  # skip on timeouts and other errors
-        logger.error(u'GET - {0}: {1}'.format(
-            context.absolute_url(), e.message))
-        context.video_url = None
-        return
-    if response.status_code == 200:
-        data = response.json()
-        context.video_url = data['url_youtube']
-        return
-    if response.status_code != 102:
-        logger.error(u'GET - {0}: {1} - {2}'.format(
-            context.absolute_url(), response.status_code, response.reason))
-        context.video_url = None
-        return
-    logger.info(u'GET - {0}: {1} - {2}'.format(
-        context.absolute_url(), response.status_code, response.reason))
-    context.video_url = ''
+        context.video_url = vlibrasnews.get(context.UID())
+    except VLibrasNewsError as e:
+        api.portal.show_message(e.msg, request=getRequest(), type='error')
+        logger.error(e.log)
 
 
-@error_handler
-def delete_translation(context, event):
+@api_error_handler
+def delete_content_handler(context, event):
     """Delete a LIBRAS translation using VLibras News API.
 
     :param context: item being deleted
@@ -281,34 +184,24 @@ def delete_translation(context, event):
     :type event: subscriber event
     :returns: True on success
     :rtype: bool
-    :raises: VLibrasNewsError
+    :raises brasil.gov.vlibrasnews.api.VLibrasNewsError: on error
     """
-    token = _get_registry_record('access_token')
-    if not _validate(context, token):
-        return False
-    is_unpublish_event = getattr(event, 'action', 'publish') != 'publish'
-    if not is_unpublish_event and not _is_published(context):
-        return False
-    if not is_unpublish_event and not _deletion_confirmed():
-        return False
+    if not IVLibrasNews.providedBy(context):
+        return  # nothing to do
 
-    params = dict(
-        url=VIDEO_URL.format(context.UID()),
-        headers={'Authentication-Token': token},
-        timeout=REQUEST_TIMEOUT,
-    )
+    if not _deletion_confirmed():
+        return  # don't process this event
 
+    if api.content.get_state(context) != 'published':
+        return  # nothing to do; translaton doesn't exist
+
+    token = _get_token_from_registry()
+    if not token:  # package not installed, token not defined or error
+        return
+
+    vlibrasnews = VLibrasNews(token=token)
     logger.info('Deleting translation for ' + context.absolute_url())
-    logger.info('DELETE - {0}'.format(params))
-
-    try:
-        response = requests.delete(**params)
-    except RequestException as e:  # skip on timeouts and other errors
-        raise VLibrasNewsError(DELETE_ERROR, e.message)
-
-    if response.status_code != 200:
-        log = u'Status code {0} ({1})'.format(response.status_code, response.reason)
-        raise VLibrasNewsError(DELETE_ERROR, log)
+    vlibrasnews.delete(context.UID())
 
     logger.info(SUCCESS)
     return True

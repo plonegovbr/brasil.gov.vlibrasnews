@@ -35,13 +35,7 @@ class SubscribersTestCase(unittest.TestCase):
                 )
 
     def test_get_registry_record(self):
-        self.assertEqual(subscribers._get_registry_record('access_token'), 'no key')
-
-    def test_validate(self):
-        self.assertTrue(subscribers._validate(self.document, 'no key'))
-
-    def test_is_published(self):
-        self.assertTrue(subscribers._is_published(self.document))
+        self.assertEqual(subscribers._get_token_from_registry(), 'no key')
 
     def test_deletion_confirmed(self):
         self.assertFalse(subscribers._deletion_confirmed())
@@ -50,57 +44,57 @@ class SubscribersTestCase(unittest.TestCase):
         self.request.form['form.submitted'] = 1
         self.assertTrue(subscribers._deletion_confirmed())
 
-    def test_create_translation_ok(self):
+    def test_workflow_change_handler_ok(self):
         with HTTMock(vlibras_ok):
-            self.assertTrue(subscribers.create_translation(self.document, Mock(action='publish')))
+            self.assertTrue(subscribers.workflow_change_handler(self.document, Mock(action='publish')))
 
-    def test_create_translation_error(self):
+    def test_workflow_change_handler_error(self):
         with HTTMock(vlibras_error):
-            self.assertFalse(subscribers.create_translation(self.document, Mock(action='publish')))
+            self.assertFalse(subscribers.workflow_change_handler(self.document, Mock(action='publish')))
         with HTTMock(request_exception):
-            self.assertFalse(subscribers.create_translation(self.document, Mock(action='publish')))
+            self.assertFalse(subscribers.workflow_change_handler(self.document, Mock(action='publish')))
 
-    def test_update_translation_ok(self):
+    def test_update_content_handler_ok(self):
         with HTTMock(vlibras_ok):
-            self.assertTrue(subscribers.update_translation(self.document, None))
+            self.assertTrue(subscribers.update_content_handler(self.document, None))
 
-    def test_update_translation_error(self):
+    def test_update_content_handler_error(self):
         with HTTMock(vlibras_error):
-            self.assertFalse(subscribers.update_translation(self.document, None))
+            self.assertFalse(subscribers.update_content_handler(self.document, None))
         with HTTMock(request_exception):
-            self.assertFalse(subscribers.update_translation(self.document, None))
+            self.assertFalse(subscribers.update_content_handler(self.document, None))
 
-    def test_get_video_url_ok(self):
+    def test_get_translation_url_ok(self):
         with HTTMock(vlibras_ok):
-            subscribers.get_video_url(self.document)
+            subscribers.get_translation_url(self.document)
             self.assertEqual(self.document.video_url, 'https://www.youtube.com/embed/ds2gGAbPJz8')
 
-    def test_get_video_url_processing(self):
+    def test_get_translation_url_processing(self):
         with HTTMock(vlibras_processing):
-            subscribers.get_video_url(self.document)
+            subscribers.get_translation_url(self.document)
             self.assertEqual(self.document.video_url, '')
 
-    def test_get_video_url_error(self):
+    def test_get_translation_url_on_error(self):
         with HTTMock(vlibras_error):
-            subscribers.get_video_url(self.document)
-            self.assertIsNone(self.document.video_url)
+            subscribers.get_translation_url(self.document)
+            self.assertEqual(self.document.video_url, '')  # no change
         with HTTMock(request_exception):
-            subscribers.get_video_url(self.document)
-            self.assertIsNone(self.document.video_url)
+            subscribers.get_translation_url(self.document)
+            self.assertEqual(self.document.video_url, '')  # no change
 
-    def test_delete_translation_ok(self):
+    def test_delete_content_handler_ok(self):
         with HTTMock(vlibras_ok):
             self.request.URL += 'delete_confirmation'
             self.request.REQUEST_METHOD = 'POST'
             self.request.form['form.submitted'] = 1
-            self.assertTrue(subscribers.delete_translation(self.document, Mock(action='publish')))
+            self.assertTrue(subscribers.delete_content_handler(self.document, Mock(action='publish')))
 
     def test_delete_on_unpublish(self):
         with HTTMock(vlibras_ok):
-            self.assertTrue(subscribers.create_translation(self.document, Mock(action='reject')))
+            self.assertTrue(subscribers.workflow_change_handler(self.document, Mock(action='reject')))
 
-    def test_delete_translation_error(self):
+    def test_delete_content_handler_error(self):
         with HTTMock(vlibras_error):
-            self.assertFalse(subscribers.delete_translation(self.document, Mock(action='publish')))
+            self.assertFalse(subscribers.delete_content_handler(self.document, Mock(action='publish')))
         with HTTMock(request_exception):
-            self.assertFalse(subscribers.delete_translation(self.document, Mock(action='publish')))
+            self.assertFalse(subscribers.delete_content_handler(self.document, Mock(action='publish')))
