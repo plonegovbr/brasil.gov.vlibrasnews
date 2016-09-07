@@ -71,7 +71,7 @@ class VLibrasNews:
         params = dict(
             url=url, headers=self.headers, data=data, timeout=self.timeout)
 
-        logger.info('POST: {0}'.format(params))
+        logger.debug('POST: {0}'.format(params))
         try:
             response = requests.post(**params)
         except RequestException as e:  # skip on timeouts and other errors
@@ -95,7 +95,7 @@ class VLibrasNews:
         params = dict(
             url=url, headers=self.headers, data=data, timeout=self.timeout)
 
-        logger.info('PUT: {0}'.format(params))
+        logger.debug('PUT: {0}'.format(params))
         try:
             response = requests.put(**params)
         except RequestException as e:  # skip on timeouts and other errors
@@ -116,7 +116,7 @@ class VLibrasNews:
         params = dict(url=url, headers=self.headers, timeout=self.timeout)
 
         try:
-            logger.info('DELETE: {0}'.format(params))
+            logger.debug('DELETE: {0}'.format(params))
             response = requests.delete(**params)
         except RequestException as e:  # skip on timeouts and other errors
             raise VLibrasNewsError(error_msg, e.message)
@@ -138,7 +138,7 @@ class VLibrasNews:
         params = dict(url=url, headers=self.headers, timeout=self.timeout)
 
         try:
-            logger.info('GET: {0}'.format(params))
+            logger.debug('GET: {0}'.format(params))
             response = requests.get(**params)
         except RequestException as e:  # skip on timeouts and other errors
             raise VLibrasNewsError(error_msg, e.message)

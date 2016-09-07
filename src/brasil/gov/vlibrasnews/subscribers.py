@@ -12,7 +12,6 @@ from Products.CMFPlone.utils import safe_unicode
 from zope.component.interfaces import ComponentLookupError
 from zope.globalrequest import getRequest
 
-SUCCESS = u'The request was successfully processed.'
 EMPTY = _(u'None')
 
 
@@ -32,7 +31,6 @@ def _get_token_from_registry():
         logger.error(u'VLibras News API authentication token is not defined')
         return
 
-    logger.info(u'Using "{0}" as authentication token'.format(value))
     return value
 
 
@@ -100,19 +98,18 @@ def workflow_change_handler(context, event):
     if event.action == 'publish':
         # the object is being published, create a translation
         payload = get_content(context)
-        logger.info('Creating translation for ' + context.absolute_url())
+        logger.debug('Creating translation for ' + context.absolute_url())
         vlibrasnews.create(context.UID(), payload)
         context.video_url = ''
     elif event.action in ('reject', 'retract'):
         # other actions could be an indication of unpublishing
         # check if the translation exists and delete it
         if vlibrasnews.get(context.UID()):
-            logger.info('Deleting translation for ' + context.absolute_url())
+            logger.debug('Deleting translation for ' + context.absolute_url())
             vlibrasnews.delete(context.UID())
     else:
         return  # nothing to do
 
-    logger.info(SUCCESS)
     return True
 
 
@@ -140,10 +137,9 @@ def update_content_handler(context, event):
 
     vlibrasnews = VLibrasNews(token=token)
     payload = get_content(context)
-    logger.info('Updating LIBRAS translation for ' + context.absolute_url())
+    logger.debug('Updating LIBRAS translation for ' + context.absolute_url())
     vlibrasnews.update(context.UID(), payload)
 
-    logger.info(SUCCESS)
     return True
 
 
@@ -166,7 +162,7 @@ def get_translation_url(context):
         return
 
     vlibrasnews = VLibrasNews(token=token)
-    logger.info('Getting LIBRAS translation for ' + context.absolute_url())
+    logger.debug('Getting LIBRAS translation for ' + context.absolute_url())
     try:
         context.video_url = vlibrasnews.get(context.UID())
     except VLibrasNewsError as e:
@@ -200,8 +196,7 @@ def delete_content_handler(context, event):
         return
 
     vlibrasnews = VLibrasNews(token=token)
-    logger.info('Deleting translation for ' + context.absolute_url())
+    logger.debug('Deleting translation for ' + context.absolute_url())
     vlibrasnews.delete(context.UID())
 
-    logger.info(SUCCESS)
     return True
