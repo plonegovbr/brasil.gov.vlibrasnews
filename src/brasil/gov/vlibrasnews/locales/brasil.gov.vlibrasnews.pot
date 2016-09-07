@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2016-08-02 18:11+0000\n"
+"POT-Creation-Date: 2016-09-07 12:54+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -14,35 +14,55 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: DOMAIN\n"
 
-#: brasil/gov/vlibrasnews/interfaces.py:19
+#: brasil/gov/vlibrasnews/interfaces.py:18
 msgid "Access Token"
 msgstr ""
 
-#: brasil/gov/vlibrasnews/interfaces.py:26
-msgid "Enabled Content Types"
+#: brasil/gov/vlibrasnews/behaviors.zcml:15
+msgid "Enables the integration with VLibras News API."
 msgstr ""
 
-#: brasil/gov/vlibrasnews/browser/templates/vlibrasnews.pt:13
+#: brasil/gov/vlibrasnews/browser/vlibrasnews.pt:13
 msgid "Libras translation being processed"
 msgstr ""
 
-#: brasil/gov/vlibrasnews/interfaces.py:27
-msgid "Only objects of these content types will display vlibras icon."
+#: brasil/gov/vlibrasnews/subscribers.py:16
+msgid "None"
 msgstr ""
 
-#: brasil/gov/vlibrasnews/browser/templates/vlibrasnews.pt:5
+#: brasil/gov/vlibrasnews/browser/vlibrasnews.pt:5
 msgid "Open Libras translation"
 msgstr ""
 
 #: brasil/gov/vlibrasnews/profiles.zcml:14
-msgid "Plone integration with VLibras News API, a service to generate LIBRAS video."
+msgid "Plone integration with VLibras News API, a service to generate a translation to LIBRAS."
 msgstr ""
 
 #: brasil/gov/vlibrasnews/controlpanel.py:13
 msgid "Settings for the VLibras News API integration."
 msgstr ""
 
-#: brasil/gov/vlibrasnews/interfaces.py:20
+#: brasil/gov/vlibrasnews/behaviors.py:21
+msgid "The URL of the video containing the LIBRAS translation for this item."
+msgstr ""
+
+#: brasil/gov/vlibrasnews/api.py:14
+msgid "There was an error while creating the LIBRAS translation."
+msgstr ""
+
+#: brasil/gov/vlibrasnews/api.py:16
+msgid "There was an error while deleting the LIBRAS translation."
+msgstr ""
+
+#: brasil/gov/vlibrasnews/api.py:17
+msgid "There was an error while getting the LIBRAS translation."
+msgstr ""
+
+#: brasil/gov/vlibrasnews/api.py:15
+msgid "There was an error while updating the LIBRAS translation."
+msgstr ""
+
+#: brasil/gov/vlibrasnews/interfaces.py:19
 msgid "Token to access the VLibras News API service."
 msgstr ""
 
@@ -50,8 +70,13 @@ msgstr ""
 msgid "Uninstalls brasil.gov.vlibrasnews."
 msgstr ""
 
+#: brasil/gov/vlibrasnews/behaviors.zcml:15
 #: brasil/gov/vlibrasnews/controlpanel.py:12
 msgid "VLibras News"
+msgstr ""
+
+#: brasil/gov/vlibrasnews/behaviors.py:20
+msgid "Video URL"
 msgstr ""
 
 #: brasil/gov/vlibrasnews/profiles.zcml:14
@@ -64,11 +89,11 @@ msgid "brasil.gov.vlibrasnews: uninstall"
 msgstr ""
 
 #. Default: "Libras translation being processed"
-#: brasil/gov/vlibrasnews/browser/templates/vlibrasnews.pt:13
+#: brasil/gov/vlibrasnews/browser/vlibrasnews.pt:13
 msgid "vlibras-not-ready"
 msgstr ""
 
 #. Default: "Open Libras translation"
-#: brasil/gov/vlibrasnews/browser/templates/vlibrasnews.pt:5
+#: brasil/gov/vlibrasnews/browser/vlibrasnews.pt:5
 msgid "vlibras-ready"
 msgstr ""
