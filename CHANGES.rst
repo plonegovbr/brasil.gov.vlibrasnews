@@ -4,6 +4,9 @@ Changelog
 1.0b1 (unreleased)
 ^^^^^^^^^^^^^^^^^^
 
+- Fix control panel configlet icon.
+  [hvelarde]
+
 - The implementation was rewritten as a behavior.
   No upgrade step is available, you must uninstall the previous version and install the new one.
   [rodfersou, hvelarde]

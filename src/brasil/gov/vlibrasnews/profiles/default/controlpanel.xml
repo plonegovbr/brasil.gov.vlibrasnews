@@ -9,7 +9,7 @@
       category="Products"
       condition_expr=""
       url_expr="string:${portal_url}/@@vlibrasnews-settings"
-      icon_expr="string:${portal_url}/++resource++brasil.gov.vlibrasnews/vlibrasnews-icon.svg"
+      icon_expr="string:${portal_url}/++resource++brasil.gov.vlibrasnews/vlibrasnews-icon.png"
       visible="True"
       i18n:attributes="title">
     <permission>Manage portal</permission>
