@@ -100,7 +100,7 @@ def workflow_change_handler(context, event):
         payload = get_content(context)
         logger.debug('Creating translation for ' + context.absolute_url())
         vlibrasnews.create(context.UID(), payload)
-        context.video_url = ''
+        context.translation_url = ''
     elif event.action in ('reject', 'retract'):
         # other actions could be an indication of unpublishing
         # check if the translation exists and delete it
@@ -164,7 +164,7 @@ def get_translation_url(context):
     vlibrasnews = VLibrasNews(token=token)
     logger.debug('Getting LIBRAS translation for ' + context.absolute_url())
     try:
-        context.video_url = vlibrasnews.get(context.UID())
+        context.translation_url = vlibrasnews.get(context.UID())
     except VLibrasNewsError as e:
         api.portal.show_message(e.msg, request=getRequest(), type='error')
         logger.error(e.log)

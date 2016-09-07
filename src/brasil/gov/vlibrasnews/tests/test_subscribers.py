@@ -67,20 +67,20 @@ class SubscribersTestCase(unittest.TestCase):
     def test_get_translation_url_ok(self):
         with HTTMock(vlibras_ok):
             subscribers.get_translation_url(self.document)
-            self.assertEqual(self.document.video_url, 'https://www.youtube.com/embed/ds2gGAbPJz8')
+            self.assertEqual(self.document.translation_url, 'https://www.youtube.com/embed/ds2gGAbPJz8')
 
     def test_get_translation_url_processing(self):
         with HTTMock(vlibras_processing):
             subscribers.get_translation_url(self.document)
-            self.assertEqual(self.document.video_url, '')
+            self.assertEqual(self.document.translation_url, '')
 
     def test_get_translation_url_on_error(self):
         with HTTMock(vlibras_error):
             subscribers.get_translation_url(self.document)
-            self.assertEqual(self.document.video_url, '')  # no change
+            self.assertEqual(self.document.translation_url, '')  # no change
         with HTTMock(request_exception):
             subscribers.get_translation_url(self.document)
-            self.assertEqual(self.document.video_url, '')  # no change
+            self.assertEqual(self.document.translation_url, '')  # no change
 
     def test_delete_content_handler_ok(self):
         with HTTMock(vlibras_ok):

@@ -16,7 +16,7 @@ class IVLibrasNews(model.Schema):
     string indicates content being processed.
     """
 
-    video_url = schema.ASCIILine(
+    translation_url = schema.ASCIILine(
         title=_(u'Video URL'),
         description=_(u'The URL of the video containing the LIBRAS translation for this item.'),
         required=False,

@@ -56,5 +56,5 @@ class ViewletTestCase(unittest.TestCase):
         with HTTMock(vlibras_ok):
             viewlet = self.viewlet(self.document)
             self.assertEqual(
-                viewlet.video_url, 'https://www.youtube.com/embed/ds2gGAbPJz8')
+                viewlet.translation_url, 'https://www.youtube.com/embed/ds2gGAbPJz8')
             self.assertEqual(viewlet.state, 'ready')

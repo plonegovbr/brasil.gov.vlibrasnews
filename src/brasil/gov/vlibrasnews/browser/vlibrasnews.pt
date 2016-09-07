@@ -6,7 +6,7 @@
         title="Open Libras translation"
         tal:attributes="class state;
                         data-state state;
-                        href view/video_url"
+                        href view/translation_url"
         tal:condition="python:state == 'ready'"
         i18n:attributes="title; data-title-close"
         i18n:translate="vlibras-ready">Open Libras translation</a>
