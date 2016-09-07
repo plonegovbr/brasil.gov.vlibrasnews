@@ -1,7 +1,7 @@
 Changelog
 ---------
 
-1.0b1 (unreleased)
+1.0b1 (2016-09-07)
 ^^^^^^^^^^^^^^^^^^
 
 - Fix control panel configlet icon.
