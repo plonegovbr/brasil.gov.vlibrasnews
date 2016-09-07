@@ -137,8 +137,14 @@ def update_content_handler(context, event):
 
     vlibrasnews = VLibrasNews(token=token)
     payload = get_content(context)
-    logger.debug('Updating LIBRAS translation for ' + context.absolute_url())
-    vlibrasnews.update(context.UID(), payload)
+    if vlibrasnews.get(context.UID()):
+        # if the translation exists, update it
+        logger.debug('Updating LIBRAS translation for ' + context.absolute_url())
+        vlibrasnews.update(context.UID(), payload)
+    else:
+        # otherwise, create it
+        logger.debug('Creating translation for ' + context.absolute_url())
+        vlibrasnews.create(context.UID(), payload)
 
     return True
 

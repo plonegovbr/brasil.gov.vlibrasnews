@@ -4,7 +4,9 @@ Changelog
 1.0b2 (unreleased)
 ^^^^^^^^^^^^^^^^^^
 
-- Nothing changed yet.
+- An error message was shown while updating content created before the installation of this package;
+  now, before updating, we check if the translation exists; if not, we create a new one.
+  [hvelarde]
 
 
 1.0b1 (2016-09-07)
