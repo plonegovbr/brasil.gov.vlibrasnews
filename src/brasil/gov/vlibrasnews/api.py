@@ -67,7 +67,7 @@ class VLibrasNews:
         :raises VLibrasNewsError: on error
         """
         assert self._is_valid_data(data)
-        url, error_msg = CREATE_URL.format(id_), CREATE_ERROR
+        url, error_msg, data['id'] = CREATE_URL, CREATE_ERROR, id_
         params = dict(
             url=url, headers=self.headers, data=data, timeout=self.timeout)
 
